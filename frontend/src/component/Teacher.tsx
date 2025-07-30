@@ -1,9 +1,8 @@
 // client/src/components/TeacherApp.tsx
-import React, { FC, useMemo, useState, useEffect } from "react"; // Import useState and useEffect
+import React, { type FC, useMemo, useState, useEffect } from "react"; // Import useState and useEffect
 import { useSelector, useDispatch } from "react-redux";
 import {
   postQuestionStart,
-  teacherActivateQuestion,
   deactivateQuestion,
   setUserName, // Import setUserName
   type RootState,
@@ -12,8 +11,9 @@ import {
 import type {
   Question,
   PostQuestionPayload,
-  ActivateQuestionPayload,
+  // ActivateQuestionPayload,
 } from "../interface/types";
+// import CreatePoll from "./CreatePoll";
 
 const TeacherApp: FC = () => {
   const dispatch = useDispatch();
@@ -65,7 +65,9 @@ const TeacherApp: FC = () => {
   console.log("TeacherApp render - activeQuestionId:", activeQuestionId);
   console.log("TeacherApp render - isQuestionActive:", isQuestionActive);
 
-  const handlePostQuestion = () => {
+  const handlePostQuestion = (
+    // questionText: string, options: string[]
+  ) => {
     const questionText = prompt("Enter your question:");
     if (!questionText) return;
     const optionsString = prompt(
@@ -86,25 +88,10 @@ const TeacherApp: FC = () => {
     }
   };
 
-  const handleActivateQuestion = (questionId: string) => {
-    if (questionTimeLimit > 0) {
-      const payload: ActivateQuestionPayload = {
-        questionId,
-        durationSeconds: questionTimeLimit,
-      };
-      dispatch(teacherActivateQuestion(payload));
-    } else {
-      alert("Please set a valid time limit before activating.");
-    }
-  };
-
   return (
     <div>
-      <h1>Teacher Dashboard: Post & Manage Questions</h1>
-
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
-      <h2>1. Post a New Question</h2>
       <div>
         <label htmlFor="timeLimit">Time Limit (seconds): </label>
         <input
@@ -125,6 +112,13 @@ const TeacherApp: FC = () => {
           {isPostingQuestion ? "Posting Question..." : "Post New Question"}
         </button>
       </div>
+{/* 
+      <CreatePoll
+        setQuestionTimeLimit={setQuestionTimeLimit}
+        isPostingQuestion={isPostingQuestion}
+        isQuestionActive={isQuestionActive}
+        handlePostQuestion={handlePostQuestion}
+      /> */}
       {isPostingQuestion && <p>Please wait, posting your question...</p>}
 
       <hr />
@@ -170,7 +164,7 @@ const TeacherApp: FC = () => {
                 </span>
               ) : (
                 <button
-                  onClick={() => handleActivateQuestion(q.id)}
+                  // onClick={() => handleActivateQuestion(q.id)}
                   disabled={isQuestionActive}
                 >
                   Activate this Question

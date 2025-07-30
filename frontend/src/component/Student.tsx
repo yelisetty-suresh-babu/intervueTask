@@ -1,5 +1,5 @@
 // client/src/components/StudentApp.tsx
-import React, { FC, useMemo, useState, useEffect } from "react"; // Import useState, useEffect
+import { type FC, useMemo, useState, useEffect } from "react"; // Import useState, useEffect
 import { useSelector, useDispatch } from "react-redux";
 import { submitAnswerStart, type RootState, setUserName } from "../store";
 import type { Question, SubmitAnswerPayload } from "../interface/types";
@@ -15,13 +15,14 @@ const StudentApp: FC = () => {
     error,
     userId,
     userName,
+    isWaitingForNextQuestion, // Add this to your Redux state
   } = useSelector((state: RootState) => state.poll);
 
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [promptShown, setPromptShown] = useState(false); // New state to track if prompt has been shown
 
   const activeQuestion: Question | undefined = useMemo(() => {
-    return questions.find((q) => q.id === activeQuestionId);
+    return questions.find((q: Question) => q.id === activeQuestionId);
   }, [questions, activeQuestionId]);
 
   // Check if the current user has already voted for the active question
@@ -35,7 +36,10 @@ const StudentApp: FC = () => {
   // Calculate if the time has expired
   const hasTimeExpired = useMemo(() => {
     // If there's no active question, and remainingTime was already 0 or less, it means time expired.
-    if (activeQuestionId === null && (remainingTime === 0 || remainingTime === null)) {
+    if (
+      activeQuestionId === null &&
+      (remainingTime === 0 || remainingTime === null)
+    ) {
       return true;
     }
     // Otherwise, check if remainingTime is 0 or less for an an active question.
@@ -112,6 +116,49 @@ const StudentApp: FC = () => {
     dispatch(submitAnswerStart(payload));
   };
 
+  // Loading Spinner Component
+  const LoadingSpinner = () => (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "40px",
+        textAlign: "center",
+      }}
+    >
+      <div
+        style={{
+          width: "50px",
+          height: "50px",
+          border: "4px solid #f3f3f3",
+          borderTop: "4px solid #3498db",
+          borderRadius: "50%",
+          animation: "spin 1s linear infinite",
+          marginBottom: "20px",
+        }}
+      />
+      <p
+        style={{
+          fontSize: "1.2em",
+          color: "#666",
+          margin: "0",
+        }}
+      >
+        Waiting for the next question...
+      </p>
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+    </div>
+  );
+
   return (
     <div>
       <h1>Student View: Answer Current Question</h1>
@@ -167,6 +214,9 @@ const StudentApp: FC = () => {
             </>
           )}
         </div>
+      ) : isWaitingForNextQuestion ? (
+        // Show loading spinner when waiting for next question
+        <LoadingSpinner />
       ) : (
         <p>
           No question is currently active. Please wait for the teacher to post
