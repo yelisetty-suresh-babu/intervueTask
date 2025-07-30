@@ -29,7 +29,7 @@ const LiveResults: React.FC<LiveResultsProps> = ({
         </div>
 
         {/* Question Box */}
-        <div className="border border-gray-300 rounded-md overflow-hidden">
+        <div className="rounded-md overflow-hidden border border-gray-300">
           <div className="bg-gradient-to-r from-gray-700 to-gray-500 text-white px-4 py-2 text-sm font-semibold">
             {activeQuestion.text}
           </div>
@@ -44,7 +44,7 @@ const LiveResults: React.FC<LiveResultsProps> = ({
               return (
                 <div
                   key={index}
-                  className="w-full flex items-center px-2 py-2 bg-gray-100 rounded-md relative overflow-hidden border"
+                  className="w-full flex items-center px-2 py-2 bg-gray-100 rounded-md relative overflow-hidden"
                 >
                   <div
                     className="absolute top-0 left-0 h-full bg-[#6766D5] rounded-md transition-all"
@@ -52,7 +52,7 @@ const LiveResults: React.FC<LiveResultsProps> = ({
                   ></div>
                   <div className="flex items-center relative z-10 w-full justify-between px-2">
                     <div className="flex items-center">
-                      <span className="flex items-center justify-center w-6 h-6 text-xs font-bold rounded-full border mr-3 bg-purple-100 text-[#6766D5] outline-[#6766D5]">
+                      <span className="flex items-center justify-center w-6 h-6 text-xs font-bold rounded-full mr-3 bg-purple-100 text-[#6766D5]">
                         {index + 1}
                       </span>
                       <span className="text-sm font-medium text-black">
