@@ -1,6 +1,3 @@
-// client/src/types.ts
-import { v4 as uuidv4 } from "uuid";
-
 export interface Option {
   text: string;
   votes: number;
@@ -15,16 +12,18 @@ export interface Question {
   timestamp: string;
 }
 
+// client/src/interface/types.ts - Add the new field to PollState
 export interface PollState {
   questions: Question[];
   activeQuestionId: string | null;
-  activeQuestionStartTime: number | null; // New: Unix timestamp when active
-  activeQuestionDuration: number | null; // New: Duration in milliseconds
+  activeQuestionStartTime: number | null;
+  activeQuestionDuration: number | null;
   isLoading: boolean;
   error: string | null;
   isPostingQuestion: boolean;
-  userId: string | null;
+  userId: string;
   userName: string | null;
+  isWaitingForNextQuestion: boolean; // Add this new field
 }
 
 // For Socket.IO event payloads
