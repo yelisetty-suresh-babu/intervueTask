@@ -31,10 +31,18 @@ const TeacherApp: FC = () => {
   const isQuestionActive = activeQuestionId !== null;
   const [questionTimeLimit, setQuestionTimeLimit] = useState<number>(60);
   const [history, setHistory] = useState<boolean>(false);
+  const [showCreatePoll, setShowCreatePoll] = useState<boolean>(false);
 
   const activeQuestion: Question | undefined = useMemo(() => {
     return questions.find((q) => q.id === activeQuestionId);
   }, [questions, activeQuestionId]);
+
+  // Get the most recent completed question for live results
+  const lastCompletedQuestion: Question | undefined = useMemo(() => {
+    if (questions.length === 0) return undefined;
+    // Return the most recent question (last in the array)
+    return questions[questions.length - 1];
+  }, [questions]);
 
   // Set teacher username once
   useEffect(() => {
@@ -48,6 +56,7 @@ const TeacherApp: FC = () => {
 
     const handleQuestionComplete = () => {
       dispatch(deactivateQuestion());
+      setShowCreatePoll(false); // Reset to show live results when question completes
     };
 
     socket.on("deactivateQuestion", handleQuestionComplete);
@@ -62,12 +71,17 @@ const TeacherApp: FC = () => {
         durationSeconds: questionTimeLimit,
       };
       dispatch(postQuestionStart(questionData));
+      setShowCreatePoll(false); // Hide create poll after posting
     } else {
       messageApi.open({
         type: "error",
         content: "Please enter a question, options, and a valid time limit.",
       });
     }
+  };
+
+  const handleAddNewQuestion = () => {
+    setShowCreatePoll(true);
   };
 
   return (
@@ -82,6 +96,23 @@ const TeacherApp: FC = () => {
         ) : activeQuestion ? (
           <div className="w-full max-w-xl mx-auto flex flex-col bg-white rounded-lg  p-4">
             <LiveResults activeQuestion={activeQuestion} isHistory={true} />
+          </div>
+        ) : showCreatePoll ? (
+          <CreatePoll
+            setQuestionTimeLimit={setQuestionTimeLimit}
+            isPostingQuestion={isPostingQuestion}
+            isQuestionActive={isQuestionActive}
+            handlePostQuestion={handlePostQuestion}
+            questionTimeLimit={questionTimeLimit}
+            setHistory={setHistory}
+          />
+        ) : lastCompletedQuestion ? (
+          <div className="w-full max-w-xl mx-auto flex flex-col bg-white rounded-lg  p-4">
+            <LiveResults
+              activeQuestion={lastCompletedQuestion}
+              isHistory={true}
+              onAddNewQuestion={handleAddNewQuestion}
+            />
           </div>
         ) : (
           <CreatePoll

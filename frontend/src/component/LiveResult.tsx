@@ -4,11 +4,13 @@ import type { Question } from "../interface/types";
 interface LiveResultsProps {
   activeQuestion: Question;
   isHistory?: boolean;
+  onAddNewQuestion?: () => void;
 }
 
 const LiveResults: React.FC<LiveResultsProps> = ({
   activeQuestion,
   isHistory,
+  onAddNewQuestion,
 }) => {
   // Total votes for percentage calculation
   const totalVotes = activeQuestion.options.reduce(
@@ -25,7 +27,7 @@ const LiveResults: React.FC<LiveResultsProps> = ({
       <div className="w-full">
         {/* Question Header */}
         <div className="flex justify-between items-center mb-3 px-2">
-          <h2 className="text-lg font-semibold text-black">Question </h2>
+          <h2 className="text-lg font-semibold text-black">Question Results</h2>
         </div>
 
         {/* Question Box */}
@@ -75,6 +77,18 @@ const LiveResults: React.FC<LiveResultsProps> = ({
             <p className="text-lg font-semibold text-black">
               Wait for the teacher to ask a new question..
             </p>
+          </div>
+        )}
+
+        {/* Add New Question Button for Teacher */}
+        {isHistory && onAddNewQuestion && (
+          <div className="flex justify-end mt-6">
+            <button
+              onClick={onAddNewQuestion}
+              className="bg-[#6766D5] text-white px-6 py-1 rounded-full font-semibold hover:bg-[#5a59c7] transition-colors duration-200 shadow-md"
+            >
+              + Add New Question
+            </button>
           </div>
         )}
       </div>
