@@ -53,19 +53,24 @@ const Dropdown = ({
           <Divider style={{ margin: "8px 0" }} />
           <Space style={{ padding: "0 8px 4px" }}>
             <Input
-              placeholder="Please enter item"
+              placeholder="Enter Time"
               ref={inputRef}
               value={val}
               onChange={onNameChange}
               onKeyDown={(e) => e.stopPropagation()}
             />
-            <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
-              Add item
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={addItem}
+              className="!bg-gradient-to-r !from-[#7765DA] !to-[#4F0DCE]"
+            >
+              Add
             </Button>
           </Space>
         </>
       )}
-      options={items.map((item) => ({ label: item, value: item }))}
+      options={items.map((item) => ({ label: item+' seconds', value: item }))}
     />
   );
 };

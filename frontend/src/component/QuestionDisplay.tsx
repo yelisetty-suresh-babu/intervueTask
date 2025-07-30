@@ -38,7 +38,7 @@ const QuizQuestion = ({
     <div className="flex justify-center items-center min-h-screen bg-white">
       <div className="w-full max-w-xl">
         {/* Question header */}
-        <div className="flex justify-between items-center mb-3 px-2">
+        <div className="flex justify-start items-center mb-3 px-2 gap-x-4">
           <h2 className="text-lg font-semibold text-black">Question</h2>
           <div className="flex items-center space-x-1">
             <svg

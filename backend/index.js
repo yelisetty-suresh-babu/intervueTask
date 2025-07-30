@@ -281,6 +281,11 @@ io.on("connection", (socket) => {
       }
     }
   });
+  // messages
+  socket.on("studentMessage", (messageData) => {
+    // Broadcast message to all connected students
+    io.emit("studentMessage", messageData);
+  });
 });
 
 const PORT = process.env.PORT || 4000;

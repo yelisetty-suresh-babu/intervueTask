@@ -15,12 +15,14 @@ const QuestionHistory: FC<QuestionHistoryProps> = ({
   setHistory,
 }) => {
   return (
-    <div className="w-full max-w-3xl mx-auto  rounded-lg  p-6">
-      <h2 className="text-lg font-semibold text-gray-800 mb-6 gap-x-4 flex items-center">
-        <Button type="default" onClick={() => setHistory(false)}>
+    <div className="w-full max-w-3xl mx-auto  rounded-lg  p-6 font-sora">
+      <h2 className="text-lg font-semibold text-gray-800 mb-6 gap-x-4 flex items-center justify-start pl-4">
+        <Button type="default" onClick={() => setHistory(false)} size="small">
           <ArrowLeftOutlined />
         </Button>
-        Question History
+        <div className="font-normal">
+          View <b className="font-extrabold">Poll History</b>
+        </div>
       </h2>
 
       {questions.length === 0 ? (

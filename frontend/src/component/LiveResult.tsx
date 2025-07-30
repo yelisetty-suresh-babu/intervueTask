@@ -52,7 +52,7 @@ const LiveResults: React.FC<LiveResultsProps> = ({
                   ></div>
                   <div className="flex items-center relative z-10 w-full justify-between px-2">
                     <div className="flex items-center">
-                      <span className="flex items-center justify-center w-6 h-6 text-xs font-bold rounded-full mr-3 bg-purple-100 text-[#6766D5]">
+                      <span className="flex items-center justify-center border border-[#6766D5] w-6 h-6 text-xs font-bold rounded-full mr-3 bg-purple-100 text-[#6766D5]">
                         {index + 1}
                       </span>
                       <span className="text-sm font-medium text-black">

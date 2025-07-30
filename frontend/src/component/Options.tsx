@@ -25,7 +25,7 @@ const OptionItem = ({
 
         <input
           type="text"
-          className="shadow-sm focus:ring-purple-500 focus:border-purple-500 block w-full text-base border-gray-300 rounded-lg p-2.5 placeholder-gray-400"
+          className="shadow-sm focus:ring-[#4E377B] focus:border-[#4E377B] block w-full text-base border-gray-300 rounded-lg p-2.5 placeholder-gray-400"
           placeholder={`Option ${String.fromCharCode(65 + index)}`}
           value={option.value}
           onChange={(e) => onValueChange(index, e.target.value)}
@@ -33,11 +33,11 @@ const OptionItem = ({
       </div>
 
       {/* Correct? Yes / No */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 hover:cursor-pointer">
         <div className="flex items-center">
           <input
             type="radio"
-            className="form-radio h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 mr-2"
+            className="form-radio h-4 w-4 text-[#4E377B] focus:ring-[#4E377B] border-gray-300 mr-2"
             name={`correct-${index}`}
             id={`correct-${index}-yes`}
             checked={option.isCorrect === true}
@@ -53,7 +53,7 @@ const OptionItem = ({
         <div className="flex items-center">
           <input
             type="radio"
-            className="form-radio h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 mr-2"
+            className="form-radio h-4 w-4 text-[#4E377B] focus:ring-[#4E377B] border-gray-300 mr-2"
             name={`correct-${index}`}
             id={`correct-${index}-no`}
             checked={option.isCorrect === false}
@@ -71,9 +71,9 @@ const OptionItem = ({
         {index > 1 && (
           <button
             onClick={() => onRemove(index)}
-            className="ml-auto text-red-500 text-xs hover:underline"
+            className="ml-auto text-[#4E377B] text-xs hover:cursor-pointer"
           >
-            x
+            X
           </button>
         )}
       </div>

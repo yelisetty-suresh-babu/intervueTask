@@ -63,9 +63,9 @@ const CreatePoll = ({
   };
 
   return (
-    <div className="bg-white rounded-lg  mx-auto p-10 px-24  h-screen font-sora">
+    <div className="bg-white rounded-lg  mx-auto py-5 px-24  h-screen font-sora">
       {/* Header */}
-      <div className="mb-8 px-10">
+      <div className="mb-4 px-10">
         <div className="bg-gradient-to-r from-[#7765DA] to-[#4F0DCE] text-white px-3 py-1.5 rounded-full inline-flex items-center text-xs font-semibold mb-4">
           <span className="mr-1">
             <svg
@@ -87,7 +87,7 @@ const CreatePoll = ({
           Let's <span className="font-bold">Get Started</span>
         </h2>
         <p
-          className="text- text-lg leading-relaxed w-[60%] font-thin"
+          className="text- text-lg leading-relaxed w-[60%] font-medium"
           style={{ color: " rgba(0, 0, 0, 0.5) " }}
         >
           You'll have the ability to create and manage polls, ask questions, and
@@ -96,7 +96,7 @@ const CreatePoll = ({
       </div>
 
       {/* Question Input */}
-      <div className="mb-8 px-10">
+      <div className="mb-6 px-10">
         <div className="flex w-full justify-between items-center mb-2">
           <label
             htmlFor="question"
@@ -124,7 +124,7 @@ const CreatePoll = ({
       </div>
 
       {/* Options */}
-      <div className="flex justify-between px-11 mb-4">
+      <div className="flex justify-between px-11 mb-4 font-bold">
         <p>Edit Option</p>
         <p className="pl-10">Is it Correct?</p>
         <p></p>
@@ -156,7 +156,7 @@ const CreatePoll = ({
           onClick={() => {
             setHistory(true);
           }}
-          className="bg-gradient-to-r from-[#7765DA] to-[#4F0DCE] text-white font-semibold py-2 px-10 rounded-full hover:from-[#6b5bc6] hover:to-[#460ab5] focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 shadow-md"
+          className="bg-gradient-to-r from-[#7765DA] to-[#4F0DCE] text-white font-semibold py-2 px-10 rounded-full hover:from-[#6b5bc6] hover:to-[#460ab5] focus:outline-none "
         >
           <div className="flex items-center gap-x-4">
             <svg
