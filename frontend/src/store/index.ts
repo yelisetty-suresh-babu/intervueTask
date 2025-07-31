@@ -21,26 +21,9 @@ import type {
 } from "../interface/types";
 
 // -------- SOCKET CONFIG --------------
-// const socket: Socket = io("http://localhost:4000");
-
-const getServerUrl = (): string => {
-  // Check if we have a specific server URL from environment
-  if (import.meta.env.VITE_SERVER_URL) {
-    return import.meta.env.VITE_SERVER_URL;
-  }
-
-  // Development fallback
-  return "http://localhost:4000";
-};
-
-const SERVER_URL = getServerUrl();
-
-const socket: Socket = io(SERVER_URL, {
-  // Additional options for better connection handling
-  transports: ["websocket", "polling"],
-  timeout: 20000,
-  retries: 3,
-});
+const socket: Socket = io(
+  import.meta.env.VITE_SERVER_URL ?? "http://localhost:4000"
+);
 
 export const useSocket = () => {
   return socket;
