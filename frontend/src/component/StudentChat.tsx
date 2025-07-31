@@ -32,7 +32,7 @@ const StudentChat = () => {
     if (newMessage.trim()) {
       const messageData: ChatMessage = {
         userId,
-        userName,
+        userName: userName ?? "sampleuser",
         text: newMessage.trim(),
         timestamp: Date.now(),
       };

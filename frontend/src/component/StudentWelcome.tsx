@@ -9,15 +9,8 @@ const StudentWelcome = ({
   setName,
 }: StudentWelcomeProps) => {
   return (
-    // The outermost div now handles centering for the entire component.
-    // It will take up at least the full viewport height and center its content.
     <div className="flex items-center justify-center min-h-screen bg-[#FFFFFF] p-4 font-sora">
-      {" "}
-      {/* Added p-4 for some padding on smaller screens */}
       <div className="b rounded-lg  p-8 max-w-md w-full">
-        {" "}
-        {/* Added w-full for better responsiveness on small screens */}
-        {/* Header */}
         <div className="text-center mb-4">
           <div className="bg-gradient-to-r from-[#7765DA] to-[#4F0DCE] text-white  py-1.5 rounded-full inline-flex items-center text-xs font-semibold mb-4 px-6">
             <span className="mr-1">
@@ -48,7 +41,7 @@ const StudentWelcome = ({
             your classmates
           </p>
         </div>
-        {/* Name Input */}
+
         <div className="mb-6">
           <label
             htmlFor="name"
@@ -67,7 +60,7 @@ const StudentWelcome = ({
             required
           />
         </div>
-        {/* Continue Button */}
+
         <div className="w-full flex items-center justify-center">
           <button
             onClick={() => handleNameSubmit(name)}

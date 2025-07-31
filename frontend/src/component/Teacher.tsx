@@ -12,6 +12,7 @@ import CreatePoll from "./CreatePoll";
 import LiveResults from "./LiveResult";
 import QuestionHistory from "./QuestionHistory";
 import { message } from "antd";
+import Loading from "./Loading";
 
 const TeacherApp: FC = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,8 @@ const TeacherApp: FC = () => {
     (state: RootState) => state.poll.isPostingQuestion
   );
   const error = useSelector((state: RootState) => state.poll.error);
+  if (error) throw new Error(error ?? "Error");
+
   const userName = useSelector((state: RootState) => state.poll.userName);
 
   const isQuestionActive = activeQuestionId !== null;
@@ -60,7 +63,10 @@ const TeacherApp: FC = () => {
     };
 
     socket.on("deactivateQuestion", handleQuestionComplete);
-    return () => socket.off("deactivateQuestion", handleQuestionComplete);
+
+    return () => {
+      socket.off("deactivateQuestion", handleQuestionComplete);
+    };
   }, [socket, dispatch]);
 
   const handlePostQuestion = (questionText: string, options: string[]) => {
@@ -84,47 +90,71 @@ const TeacherApp: FC = () => {
     setShowCreatePoll(true);
   };
 
+  // Render the appropriate content based on current state
+  const renderContent = () => {
+    // Show question history
+    if (history) {
+      return <QuestionHistory questions={questions} setHistory={setHistory} />;
+    }
+
+    // Show active question results
+    if (activeQuestion) {
+      return (
+        <div className="w-full max-w-xl mx-auto flex flex-col bg-white rounded-lg p-4">
+          <LiveResults activeQuestion={activeQuestion} isHistory={true} />
+        </div>
+      );
+    }
+
+    // Show create poll form
+    if (showCreatePoll) {
+      return (
+        <CreatePoll
+          setQuestionTimeLimit={setQuestionTimeLimit}
+          isPostingQuestion={isPostingQuestion}
+          isQuestionActive={isQuestionActive}
+          handlePostQuestion={handlePostQuestion}
+          questionTimeLimit={questionTimeLimit}
+          setHistory={setHistory}
+        />
+      );
+    }
+
+    // Show last completed question results
+    if (lastCompletedQuestion) {
+      return (
+        <div className="w-full max-w-xl mx-auto flex flex-col bg-white rounded-lg p-4">
+          <LiveResults
+            activeQuestion={lastCompletedQuestion}
+            isHistory={true}
+            onAddNewQuestion={handleAddNewQuestion}
+          />
+        </div>
+      );
+    }
+    if (isPostingQuestion)
+      return (
+        // <div className="flex items-center justify-center w-screen h-screen">
+        //   <Spin />
+        // </div>
+        <Loading message="Please wait, posting your question..." />
+      );
+
+    return (
+      <CreatePoll
+        setQuestionTimeLimit={setQuestionTimeLimit}
+        isPostingQuestion={isPostingQuestion}
+        isQuestionActive={isQuestionActive}
+        handlePostQuestion={handlePostQuestion}
+        questionTimeLimit={questionTimeLimit}
+        setHistory={setHistory}
+      />
+    );
+  };
   return (
     <div className="flex justify-center items-center min-h-screen bg-white">
       {contextHolder}
-      <div className="w-full ">
-        {error && <p className="text-red-500">Error: {error}</p>}
-        {isPostingQuestion && <p>Please wait, posting your question...</p>}
-
-        {history ? (
-          <QuestionHistory questions={questions} setHistory={setHistory} />
-        ) : activeQuestion ? (
-          <div className="w-full max-w-xl mx-auto flex flex-col bg-white rounded-lg  p-4">
-            <LiveResults activeQuestion={activeQuestion} isHistory={true} />
-          </div>
-        ) : showCreatePoll ? (
-          <CreatePoll
-            setQuestionTimeLimit={setQuestionTimeLimit}
-            isPostingQuestion={isPostingQuestion}
-            isQuestionActive={isQuestionActive}
-            handlePostQuestion={handlePostQuestion}
-            questionTimeLimit={questionTimeLimit}
-            setHistory={setHistory}
-          />
-        ) : lastCompletedQuestion ? (
-          <div className="w-full max-w-xl mx-auto flex flex-col bg-white rounded-lg  p-4">
-            <LiveResults
-              activeQuestion={lastCompletedQuestion}
-              isHistory={true}
-              onAddNewQuestion={handleAddNewQuestion}
-            />
-          </div>
-        ) : (
-          <CreatePoll
-            setQuestionTimeLimit={setQuestionTimeLimit}
-            isPostingQuestion={isPostingQuestion}
-            isQuestionActive={isQuestionActive}
-            handlePostQuestion={handlePostQuestion}
-            questionTimeLimit={questionTimeLimit}
-            setHistory={setHistory}
-          />
-        )}
-      </div>
+      <div className="w-full">{renderContent()}</div>
     </div>
   );
 };

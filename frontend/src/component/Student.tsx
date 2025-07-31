@@ -21,6 +21,7 @@ const StudentApp: FC = () => {
     userName,
     isWaitingForNextQuestion,
   } = useSelector((state: RootState) => state.poll);
+  if (error) throw new Error(error ?? "Error");
 
   const [name, setName] = useState("");
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
@@ -74,8 +75,54 @@ const StudentApp: FC = () => {
     setPromptShown(true);
   };
 
+  // Render the main content based on current state
+  const renderMainContent = () => {
+    // Show active question content
+    if (activeQuestion) {
+      return renderActiveQuestionContent();
+    }
+
+    // Show loading when waiting for next question
+    if (isWaitingForNextQuestion) {
+      return <Loading />;
+    }
+
+    // Default message when no question is active
+    return (
+      <p className="text-center mt-10 text-lg text-gray-700">
+        No question is currently active. Please wait for the teacher.
+      </p>
+    );
+  };
+
+  // Render content when there's an active question
+  const renderActiveQuestionContent = () => {
+    if (!activeQuestion) return null;
+
+    // Show question if user hasn't answered and time hasn't expired
+    if (!hasUserVoted && !hasTimeExpired) {
+      return (
+        <QuizQuestion
+          activeQuestion={activeQuestion}
+          remainingTime={remainingTime}
+          hasUserVoted={hasUserVoted}
+          hasTimeExpired={hasTimeExpired}
+          onSubmitAnswer={handleSubmitAnswer}
+        />
+      );
+    }
+
+    // Show results if user already answered or time expired
+    return (
+      <div className="max-w-xl mx-auto">
+        <LiveResults activeQuestion={activeQuestion} />
+      </div>
+    );
+  };
+
   return (
     <div className="w-full">
+      {/* Show welcome screen if user hasn't set their name */}
       {!userName && !promptShown && (
         <StudentWelcome
           name={name}
@@ -84,6 +131,7 @@ const StudentApp: FC = () => {
         />
       )}
 
+      {/* Chat button */}
       <button
         onClick={() => setOpenModal(true)}
         className="fixed bottom-6 right-6 w-10 h-10 rounded-full 
@@ -91,7 +139,6 @@ const StudentApp: FC = () => {
                  shadow-lg flex items-center justify-center 
                  text-white hover:scale-110 transition-transform duration-200"
       >
-        {/* <WechatWorkOutlined className="text-xl" /> */}
         <svg
           width="20"
           height="20"
@@ -105,34 +152,14 @@ const StudentApp: FC = () => {
           />
         </svg>
       </button>
+
+      {/* Error message */}
       {error && <p style={{ color: "red" }}>Error: {error}</p>}
 
-      {activeQuestion ? (
-        <div className="w-full">
-          {/* Show Question if user hasn't answered */}
-          {!hasUserVoted && !hasTimeExpired ? (
-            <QuizQuestion
-              activeQuestion={activeQuestion}
-              remainingTime={remainingTime}
-              hasUserVoted={hasUserVoted}
-              hasTimeExpired={hasTimeExpired}
-              onSubmitAnswer={handleSubmitAnswer}
-            />
-          ) : (
-            // Show results if user already answered or time expired
-            <div className="max-w-xl mx-auto">
-              <LiveResults activeQuestion={activeQuestion} />
-            </div>
-          )}
-        </div>
-      ) : isWaitingForNextQuestion ? (
-        <Loading />
-      ) : (
-        <p className="text-center mt-10 text-lg text-gray-700">
-          No question is currently active. Please wait for the teacher.
-        </p>
-      )}
+      {/* Main content */}
+      {renderMainContent()}
 
+      {/* Chat modal */}
       <Modal
         title="Chat"
         closable={{ "aria-label": "Custom Close Button" }}

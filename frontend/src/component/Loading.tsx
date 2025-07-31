@@ -1,7 +1,13 @@
 import { Loading3QuartersOutlined } from "@ant-design/icons";
 import { Spin } from "antd";
 
-const Loading = () => {
+interface LoadingProps {
+  message?: string;
+}
+
+const Loading = ({
+  message = "Wait for the teacher to ask questions..",
+}: LoadingProps) => {
   return (
     <div className="flex flex-col gap-y-4 items-center justify-center w-full h-screen font-sora">
       <div className="bg-gradient-to-r from-[#7765DA] to-[#4F0DCE] text-white py-1.5 rounded-full inline-flex items-center text-xs font-semibold mb-4 px-6">
@@ -29,9 +35,7 @@ const Loading = () => {
           />
         }
       />
-      <h1 className="text-3xl font-normal">
-        Wait for the teacher to ask questions..
-      </h1>
+      <h1 className="text-3xl font-normal">{message}</h1>
     </div>
   );
 };
