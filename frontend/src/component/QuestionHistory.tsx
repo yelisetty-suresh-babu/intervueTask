@@ -34,7 +34,6 @@ const QuestionHistory: FC<QuestionHistoryProps> = ({
             .reverse()
             .map((q) => (
               <div key={q.id} className="rounded-lg p-4">
-                {/* Reusing the LiveResults component */}
                 <LiveResults activeQuestion={q} isHistory={true} />
               </div>
             ))}

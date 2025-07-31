@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Landing = () => {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
@@ -7,9 +7,10 @@ const Landing = () => {
   const handleRoleSelect = (role: string) => {
     setSelectedRole(role);
   };
+  const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-5 font-sans">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-5 font-sora">
       <div className="text-center mb-12">
         {/* Intervue Poll Tag */}
         <div className="bg-gradient-to-r from-[#7765DA] to-[#4F0DCE] text-white px-4 py-2 rounded-full inline-flex items-center text-sm font-semibold mb-5 shadow-sm">
@@ -40,31 +41,8 @@ const Landing = () => {
       </div>
 
       <div className="flex gap-8 mb-12">
-        <Link to="/teacher">
-          <div
-            className={`
-            bg-white border border-gray-200 rounded-xl p-8 w-96 shadow-md cursor-pointer
-            transition-all duration-300 ease-in-out
-            ${
-              selectedRole === "teacher"
-                ? "border-purple-600 shadow-lg ring-2 ring-purple-300"
-                : "hover:shadow-lg hover:border-gray-300"
-            }
-              `}
-            onClick={() => handleRoleSelect("teacher")}
-          >
-            <h2 className="text-xl font-semibold text-gray-800 mb-3">
-              I'm a Teacher
-            </h2>
-            <p className="text-base text-gray-600 leading-snug">
-              Submit answers and view live poll results in real-time.
-            </p>
-          </div>
-        </Link>
-
-        <Link to="/student">
-          <div
-            className={`
+        <div
+          className={`
             bg-white border border-gray-200 rounded-xl p-8 w-96 shadow-md cursor-pointer
             transition-all duration-300 ease-in-out
             ${
@@ -73,17 +51,36 @@ const Landing = () => {
                 : "hover:shadow-lg hover:border-gray-300"
             }
           `}
-            onClick={() => handleRoleSelect("student")}
-          >
-            <h2 className="text-xl font-semibold text-gray-800 mb-3">
-              I'm a Student
-            </h2>
-            <p className="text-base text-gray-600 leading-snug">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry
-            </p>
-          </div>
-        </Link>
+          onClick={() => handleRoleSelect("student")}
+        >
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">
+            I'm a Student
+          </h2>
+          <p className="text-base text-gray-600 leading-snug">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry
+          </p>
+        </div>
+
+        <div
+          className={`
+            bg-white border border-gray-200 rounded-xl p-8 w-96 shadow-md cursor-pointer
+            transition-all duration-300 ease-in-out
+            ${
+              selectedRole === "teacher"
+                ? "border-purple-600 shadow-lg ring-2 ring-purple-300"
+                : "hover:shadow-lg hover:border-gray-300"
+            }
+              `}
+          onClick={() => handleRoleSelect("teacher")}
+        >
+          <h2 className="text-xl font-semibold text-gray-800 mb-3">
+            I'm a Teacher
+          </h2>
+          <p className="text-base text-gray-600 leading-snug">
+            Submit answers and view live poll results in real-time.
+          </p>
+        </div>
       </div>
 
       <button
@@ -92,6 +89,9 @@ const Landing = () => {
           px-16 py-3 rounded-full text-lg shadow-lg cursor-pointer
           hover:from-[#6b5bc6] hover:to-[#460ab5] transition-colors duration-300 
         "
+        onClick={() => {
+          navigate(`/${selectedRole}`);
+        }}
       >
         Continue
       </button>

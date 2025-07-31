@@ -63,7 +63,7 @@ const CreatePoll = ({
   };
 
   return (
-    <div className="bg-white rounded-lg  mx-auto py-5 px-24  h-screen font-sora">
+    <div className="bg-white rounded-lg  mx-auto py-10 px-24  h-screen font-sora">
       {/* Header */}
       <div className="mb-4 px-10">
         <div className="bg-gradient-to-r from-[#7765DA] to-[#4F0DCE] text-white px-3 py-1.5 rounded-full inline-flex items-center text-xs font-semibold mb-4">
@@ -151,7 +151,7 @@ const CreatePoll = ({
       </div>
 
       {/* Submit Button */}
-      <div className="border-t border-gray-200 pt-3 flex justify-between">
+      <div className="border-t border-gray-200 pt-3 flex justify-between px-10">
         <button
           onClick={() => {
             setHistory(true);
