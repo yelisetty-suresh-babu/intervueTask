@@ -19,6 +19,7 @@ const io = new Server(server, {
       "https://intervue-task-one.vercel.app",
       // Add any other domains you need
       "https://intervue-task-jfmroqhs6-yelisetty-suresh-babus-projects.vercel.app/",
+      "*",
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
@@ -39,6 +40,7 @@ app.use(
       "http://localhost:3000",
       "https://intervue-task-one.vercel.app",
       "https://intervue-task-jfmroqhs6-yelisetty-suresh-babus-projects.vercel.app/",
+      "*",
     ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"],
