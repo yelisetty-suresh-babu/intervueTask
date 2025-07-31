@@ -1,20 +1,49 @@
-// server/index.js - Fixed version of isCurrentQuestionComplete function
+// server/index.js - Fixed version with proper CORS configuration
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
 const cors = require("cors");
 const { v4: uuidv4 } = require("uuid");
 const { instrument } = require("@socket.io/admin-ui");
+
 const app = express();
 const server = http.createServer(app);
+
+// Enhanced CORS configuration for Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: ["https://admin.socket.io", "http://localhost:5173", "*"],
+    origin: [
+      "https://admin.socket.io",
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://intervue-task-one.vercel.app",
+      // Add any other domains you need
+    ],
     methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true,
   },
+  // Additional transport options for better compatibility
+  transports: ["websocket", "polling"],
+  allowEIO3: true,
 });
+
 require("dotenv").config();
-app.use(cors());
+
+// Enhanced CORS for Express
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://intervue-task-one.vercel.app",
+    ],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 const questions = [];
@@ -84,6 +113,7 @@ function isCurrentQuestionComplete() {
 
   return false;
 }
+
 app.get("/health", (req, res) => {
   res.status(200).send("OK");
 });
@@ -284,6 +314,7 @@ io.on("connection", (socket) => {
       }
     }
   });
+
   // messages
   socket.on("studentMessage", (messageData) => {
     // Broadcast message to all connected students
