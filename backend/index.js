@@ -9,11 +9,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["https://admin.socket.io", "http://localhost:5173"],
+    origin: ["https://admin.socket.io", "http://localhost:5173", "*"],
     methods: ["GET", "POST"],
   },
 });
-
+require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
@@ -84,6 +84,9 @@ function isCurrentQuestionComplete() {
 
   return false;
 }
+app.get("/health", (req, res) => {
+  res.status(200).send("OK");
+});
 
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
