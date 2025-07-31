@@ -133,12 +133,7 @@ const TeacherApp: FC = () => {
       );
     }
     if (isPostingQuestion)
-      return (
-        // <div className="flex items-center justify-center w-screen h-screen">
-        //   <Spin />
-        // </div>
-        <Loading message="Please wait, posting your question..." />
-      );
+      return <Loading message="Please wait, posting your question..." />;
 
     return (
       <CreatePoll

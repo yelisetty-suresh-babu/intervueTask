@@ -31,8 +31,8 @@ const Landing = () => {
           Intervue Poll
         </div>
 
-        <h1 className="text-4xl font-bold text-gray-800 mb-4">
-          Welcome to the Live Polling System
+        <h1 className="text-4xl font-normal text-gray-800 mb-4">
+          Welcome to the <b>Live Polling System</b>
         </h1>
         <p className="text-lg text-gray-600 max-w-2xl leading-relaxed">
           Please select the role that best describes you to begin using the live

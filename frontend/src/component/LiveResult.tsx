@@ -5,12 +5,14 @@ interface LiveResultsProps {
   activeQuestion: Question;
   isHistory?: boolean;
   onAddNewQuestion?: () => void;
+  index?: number;
 }
 
 const LiveResults: React.FC<LiveResultsProps> = ({
   activeQuestion,
   isHistory,
   onAddNewQuestion,
+  index,
 }) => {
   // Total votes for percentage calculation
   const totalVotes = activeQuestion.options.reduce(
@@ -27,7 +29,9 @@ const LiveResults: React.FC<LiveResultsProps> = ({
       <div className="w-full">
         {/* Question Header */}
         <div className="flex justify-between items-center mb-3 px-2">
-          <h2 className="text-lg font-semibold text-black">Question Results</h2>
+          <h2 className="text-lg font-semibold text-black">
+            Question {index !== undefined ? index : "Result"}
+          </h2>
         </div>
 
         {/* Question Box */}

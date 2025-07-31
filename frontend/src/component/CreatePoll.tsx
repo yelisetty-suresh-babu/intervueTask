@@ -87,8 +87,8 @@ const CreatePoll = ({
           Let's <span className="font-bold">Get Started</span>
         </h2>
         <p
-          className="text- text-lg leading-relaxed w-[60%] font-medium"
-          style={{ color: " rgba(0, 0, 0, 0.5) " }}
+          className="text- text-lg leading-relaxed w-[60%] font-thin "
+          style={{ color: " rgba(0, 0, 0, 0.5) ", fontWeight: 400 }}
         >
           You'll have the ability to create and manage polls, ask questions, and
           monitor your students' responses in real-time.

@@ -32,9 +32,13 @@ const QuestionHistory: FC<QuestionHistoryProps> = ({
           {questions
             .slice()
             .reverse()
-            .map((q) => (
+            .map((q, index) => (
               <div key={q.id} className="rounded-lg p-4">
-                <LiveResults activeQuestion={q} isHistory={true} />
+                <LiveResults
+                  activeQuestion={q}
+                  isHistory={true}
+                  index={index + 1}
+                />
               </div>
             ))}
         </div>
